@@ -4,7 +4,7 @@
  * 
  * 
  * Last Edited by: Thomas Nguyen
- * Lasted Edited: February 9, 2022
+ * Lasted Edited: February 14, 2022
  * Description: Camera to follow objects
  * 
 ****/
@@ -15,7 +15,11 @@ using UnityEngine;
 
 public class FollowCam : MonoBehaviour
 {
-    static public GameObject POI;
+    static public GameObject POI; //the static point of interest
+
+    [Header("Set in Inspector")]
+    public float easing = 0.05f; //easing the camera by ~5%
+    public Vector2 minXY = Vector2.zero;
 
     public float camZ; //the desired Z posiiton of the camera
 
@@ -28,9 +32,18 @@ public class FollowCam : MonoBehaviour
     {
         if (POI == null) return; //if no point of interest exit update
 
-        Vector3 destination = POI.transform.position;
-        destination.z = camZ;
-        transform.position = destination;
+        Vector3 destination = POI.transform.position; //get the position of the POI
+
+        destination.x = Mathf.Max(minXY.x, destination.x); //finds the max value between the min x of vector 2 and the destination x
+        destination.y = Mathf.Max(minXY.y, destination.y); //finds the max value between the min y of vector 2 and the destination y
+
+        destination = Vector3.Lerp(transform.position, destination, easing); //interpolates from current camera position towards destination
+
+        destination.z = camZ; //resets the z of the destination to the camera z
+        transform.position = destination; //sets the position of the camera to the destination
+
+        Camera.main.orthographicSize = destination.y + 10;
+
     } //end FixedUpdate()
 
     // Start is called before the first frame update
