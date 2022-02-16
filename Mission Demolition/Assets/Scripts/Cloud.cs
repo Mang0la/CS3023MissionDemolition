@@ -73,10 +73,10 @@ public class Cloud : MonoBehaviour
     void Update()
     {
         //keypress spacebar input
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Restart();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Restart();
+        //}
 
 
 
