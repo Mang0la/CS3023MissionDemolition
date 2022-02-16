@@ -4,7 +4,7 @@
  * 
  * 
  * Last Edited by: Thomas Nguyen
- * Lasted Edited: February 9, 2022
+ * Lasted Edited: February 16, 2022
  * Description: Slingshot controller
  * 
 ****/
@@ -15,6 +15,8 @@ using UnityEngine;
 
 public class Slingshot : MonoBehaviour
 {
+    static private Slingshot S;
+
     [Header("Set in Inspector")]
     public GameObject prefabProjectile;
     public float velocityMultiplier = 8f;
@@ -26,8 +28,18 @@ public class Slingshot : MonoBehaviour
     public bool aimingMode; //is player aiming
     public Rigidbody projectileRB; //rigidbody of the projectile
 
+    static public Vector3 Launch_Pos
+    {
+        get { 
+            if (S == null) return Vector3.zero;
+            return S.launchPos;
+        }
+    }
+
     private void Awake()
     {
+        S = this;
+
         Transform launchPointTrans = transform.Find("LaunchPoint"); //every gameobject has a transform component
         launchPoint = launchPointTrans.gameObject; //looks for another transform component with the same name because its referencing the transformation    
 
